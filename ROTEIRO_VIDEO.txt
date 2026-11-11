@@ -1,0 +1,124 @@
+ROTEIRO DO VIDEO - CitizenTech: Vai chover na proxima hora em Sao Paulo?
+Duracao alvo: 4min30s (limite: 5 min) | YouTube "nao listado"
+Apresentadores: Albert (A), Bruno (B), Paulo (P)  -> troquem a divisao se preferirem
+Formato: gravacao de tela (VS Code / Jupyter / GitHub) + voz. Camera opcional na abertura.
+
+DICAS ANTES DE GRAVAR
+- Abra o notebook ml/projeto_chuva_sp.ipynb JA EXECUTADO (nao rode ao vivo; leva ~1,5 min).
+- Deixe abertas as abas: repositorio no GitHub, ml/dados/README.md, notebook, RELATORIO_ML.md.
+- Zoom da tela em 125-150% para os numeros ficarem legiveis.
+- Cada fala abaixo tem ~130 palavras por minuto. Leia em voz alta uma vez para cronometrar.
+- Fale os numeros com virgula: "zero virgula cinquenta e nove".
+
+======================================================================
+CENA 1 - ABERTURA E PROBLEMA                          0:00 - 0:35  (A)
+======================================================================
+TELA: README.md do repositorio no GitHub.
+
+FALA:
+"Ola, somos Albert, Bruno e Paulo, e este e o nosso projeto de Machine
+Learning da CitizenTech. Em Sao Paulo, chuvas repentinas causam
+alagamento, transito e atraso no transporte, e pegam o cidadao
+desprevenido. A nossa pergunta de Machine Learning foi: com as medicoes
+da estacao oficial do INMET na hora atual, da para prever se vai chover
+na proxima hora? E uma classificacao binaria: chove ou nao chove na hora
+seguinte."
+
+======================================================================
+CENA 2 - DADOS REAIS                                  0:35 - 1:10  (A)
+======================================================================
+TELA: ml/dados/README.md (tabela de fonte) e depois a pasta ml/dados/brutos.
+
+FALA:
+"Usamos dados reais e publicos do INMET, da estacao automatica A701,
+Mirante de Santana, de janeiro de 2023 a dezembro de 2025: sao 26 mil
+registros horarios com chuva, pressao, temperatura, ponto de orvalho,
+umidade, radiacao e vento. Os arquivos estao no repositorio exatamente
+como o INMET publica, com fonte, link e periodo documentados. Nao usamos
+nenhum dado simulado. Um ponto importante: a chuva acontece em so 7,4%
+das horas, entao as classes sao bem desbalanceadas."
+
+======================================================================
+CENA 3 - PREPARACAO E DIVISAO TREINO/TESTE            1:10 - 1:55  (B)
+======================================================================
+TELA: notebook, secao 3 (tabela de faltantes) -> grafico exploratorio
+      (chuva por mes e por hora) -> tabela de divisao treino/teste.
+
+FALA:
+"Na preparacao, convertemos o horario UTC para o de Brasilia,
+transformamos as falhas do sensor, marcadas como menos 9999, em valores
+faltantes, e verificamos faixas fisicas. Falhas curtas foram preenchidas
+so com o valor anterior, e a chuva nunca foi imputada, porque ela define
+o alvo. Criamos 21 atributos, como chuva acumulada em 3 e 6 horas,
+tendencia da pressao e hora do dia, sempre usando so o presente e o
+passado. Como e serie temporal, a divisao nao foi aleatoria: treinamos
+com 2023 e 2024 e testamos com 2025 inteiro, um ano que o modelo nunca
+viu."
+
+======================================================================
+CENA 4 - ESCOLHA DO MODELO                            1:55 - 2:20  (B)
+======================================================================
+TELA: notebook, secao 4 (tabela "Por que Random Forest").
+
+FALA:
+"Escolhemos o Random Forest porque ele captura interacoes nao lineares,
+como umidade alta com pressao caindo no fim da tarde, nao exige
+normalizacao, lida com classe rara usando pesos balanceados e mostra a
+importancia das variaveis. Regressao logistica seria linear demais, e
+Naive Bayes supoe independencia entre variaveis muito correlacionadas."
+
+======================================================================
+CENA 5 - HIPERPARAMETROS E OVERFITTING                2:20 - 3:05  (P)
+======================================================================
+TELA: notebook, secao 5 -> tabela das 18 combinacoes -> grafico
+      "F1 treino x validacao" (apontar com o mouse os picos de treino = 1,0).
+
+FALA:
+"Testamos 18 combinacoes de tres hiperparametros: numero de arvores,
+profundidade maxima e minimo de amostras por folha, com validacao
+cruzada temporal de 5 dobras, so dentro do treino. A metrica foi o F1 da
+classe chuva. Este grafico mostra o overfitting na pratica: arvores sem
+limite e com folha de 1 amostra chegam a F1 1,0 no treino, mas so 0,40
+na validacao, ou seja, decoraram os dados. Com folhas de 50 amostras o
+modelo fica simples demais. O melhor equilibrio foi 300 arvores, sem
+limite de profundidade e no minimo 10 amostras por folha."
+
+======================================================================
+CENA 6 - RESULTADOS TREINO x TESTE                    3:05 - 3:50  (P)
+======================================================================
+TELA: grafico de barras "treino x teste lado a lado" -> matrizes de
+      confusao -> tabela de comparacao com persistencia.
+
+FALA:
+"Aqui estao treino e teste lado a lado. No teste de 2025 tivemos F1 de
+0,59, recall de 0,66 e ROC-AUC de 0,93. No treino o F1 foi 0,76, entao
+existe um overfitting moderado, mas o resultado do teste ficou proximo
+do que a validacao cruzada previa. Repare que a acuracia engana: dizer
+sempre 'nao chove' ja acerta 93%. Comparando com a regra 'se esta
+chovendo, vai continuar chovendo', o modelo avisou 65,6% das horas de
+chuva, contra 57,5% da regra."
+
+======================================================================
+CENA 7 - CONCLUSAO PARA O CIDADAO                     3:50 - 4:30  (B ou A)
+======================================================================
+TELA: tabela "Exemplo de uso" (avisos baixa/moderada/alta) -> secao 8.
+
+FALA:
+"O que isso significa para o cidadao? O maior ganho esta no inicio da
+chuva: em 235 horas a chuva comecou com o tempo ainda seco. A regra
+simples nunca avisa esses casos, e o modelo antecipou quase 20% deles.
+Na pratica, a probabilidade vira um aviso de baixa, moderada ou alta
+chance de chuva na proxima hora, para a pessoa sair mais cedo ou levar
+guarda-chuva. As limitacoes: e uma unica estacao, metade dos alertas
+ainda sao alarmes falsos, e o modelo nao preve alagamento. Por isso ele
+complementa, e nao substitui, os alertas da Defesa Civil. Como proximo
+passo, usariamos mais estacoes para cobrir outros bairros. Obrigado!"
+
+======================================================================
+CHECKLIST FINAL
+======================================================================
+[ ] Video com no maximo 5:00
+[ ] Publicado no YouTube como "Nao listado" (nao "Privado")
+[ ] Link do video colado no README.md
+[ ] Repositorio publico (ou acessivel ao professor) com a pasta ml/
+[ ] Um integrante enviou no Teams os links do repositorio e do video ate 19/11, 23h55
