@@ -25,6 +25,15 @@ Modelo de **Random Forest** que estima, com as medições oficiais da estação 
 
 Teste em 2025 (ano inteiro nunca visto no treino): **F1 0,59 · recall 0,66 · ROC-AUC 0,93** para a classe chuva; o modelo avisa 65,6 % das horas de chuva com 1 h de antecedência (persistência: 57,5 %) e antecipa 19,6 % dos **inícios** de chuva, que a regra de persistência nunca prevê.
 
+## Integração futura com o PONTOVOZ (ponto inteligente)
+
+As previsões deste modelo poderão ser integradas ao **PONTOVOZ**, o nosso ponto de ônibus inteligente, para transformar a probabilidade de chuva em informação útil para quem está esperando o transporte:
+
+- **Ônibus que podem atrasar:** quando o modelo indicar chuva na próxima hora, o PONTOVOZ avisa quais linhas que passam naquele ponto têm maior risco de atraso (por exemplo, linhas que cruzam vias com histórico de alagamento ou trânsito lento sob chuva).
+- **Alerta de chuva ao usuário:** se a chuva for provável, o ponto avisa o usuário com antecedência para que ele tome a melhor decisão — por exemplo, seguir para uma estação de metrô próxima em vez de esperar um ônibus que pode atrasar, ou se abrigar antes de a chuva começar.
+
+Assim, o aviso de curtíssimo prazo deixa de ser apenas uma previsão do tempo e passa a apoiar decisões de mobilidade no momento em que o cidadão mais precisa.
+
 ## Como executar
 
 Requer Python 3.10+ (testado com Python 3.13). Os dados estão no repositório: **não é preciso internet**.
