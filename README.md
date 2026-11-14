@@ -20,7 +20,7 @@ Modelo de **Random Forest** que estima, com as medições oficiais da estação 
 | Dados brutos oficiais do INMET (2023–2025) | [`ml/dados/brutos/`](ml/dados/brutos/) |
 | Dependências | [`ml/requirements.txt`](ml/requirements.txt) (cópia em [`requirements.txt`](requirements.txt)) |
 | Relatório | [`RELATORIO_ML.md`](RELATORIO_ML.md) |
-| Vídeo (até 5 min, YouTube não listado) | _link do vídeo aqui_ |
+| Vídeo (até 5 min, YouTube não listado) | https://youtu.be/w32TLk7KAAg |
 
 ## Resultado em uma linha
 
