@@ -9,6 +9,7 @@ Modelo de **Random Forest** que estima, com as medições oficiais da estação 
 - Albert Katri, RM556544, `0ldev`
 - Bruno Biletsky, RM554739, `Bruno-Biletsky`
 - Paulo Akira, RM556840, `pauloakira05`
+- Guilherme Gomes, RM554606, `guig3003`
 
 ## Entregáveis
 
